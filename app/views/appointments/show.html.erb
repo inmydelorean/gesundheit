@@ -50,7 +50,7 @@
 
 
                   <% unless @appointment.completed? %>
-                    <div class="mt-4 font-medium text-gray-900">Add a recommendation:</div>
+                    <div class="mt-4 font-medium text-gray-900"></div>
                     <% if doctor_signed_in?  %>
 
                     <%= form_with model: [@appointment, @appointment.build_recommendation], data: { turbo: false } do |form| %>

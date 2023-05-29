@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
   protected
 
   def configure_permitted_parameters
-    new_params = [:phone_number, :first_name, :last_name, :date_of_birth, :admin]
+    new_params = [:phone_number, :first_name, :last_name, :date_of_birth]
     devise_parameter_sanitizer.permit(:sign_up, keys: new_params)
     devise_parameter_sanitizer.permit(:account_update, keys: new_params)
   end
