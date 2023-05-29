@@ -1,0 +1,19 @@
+---
+development:
+  cloud_name: <%= Rails.application.credentials.dig(:cloudinary, :cloud_name) %>
+  api_key: <%= Rails.application.credentials.dig(:cloudinary, :api_key) %>
+  api_secret: <%= Rails.application.credentials.dig(:cloudinary, :api_secret) %>
+  enhance_image_tag: <%= Rails.application.credentials.dig(:cloudinary, :enhance_image_tag) %>
+  static_file_support: <%= Rails.application.credentials.dig(:cloudinary, :static_file_support) %>
+test:
+  cloud_name: <%= Rails.application.credentials.dig(:cloudinary, :cloud_name) %>
+  api_key: <%= Rails.application.credentials.dig(:cloudinary, :api_key) %>
+  api_secret: <%= Rails.application.credentials.dig(:cloudinary, :api_secret) %>
+  enhance_image_tag: <%= Rails.application.credentials.dig(:cloudinary, :enhance_image_tag) %>
+  static_file_support: <%= Rails.application.credentials.dig(:cloudinary, :static_file_support) %>
+production:
+  cloud_name: <%= Rails.application.credentials.dig(:cloudinary, :cloud_name) %>
+  api_key: <%= Rails.application.credentials.dig(:cloudinary, :api_key) %>
+  api_secret: <%= Rails.application.credentials.dig(:cloudinary, :api_secret) %>
+  enhance_image_tag: <%= Rails.application.credentials.dig(:cloudinary, :enhance_image_tag) %>
+  static_file_support: <%= Rails.application.credentials.dig(:cloudinary, :static_file_support) %>

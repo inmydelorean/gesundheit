@@ -1,0 +1,28 @@
+<header class="relative z-10">
+  <nav aria-label="Top">
+    <div class="bg-gray-900">
+      <div class="mx-auto flex h-10 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        <%= link_to root_path do %>
+          <div class="text-sm font-medium text-white">Gesundheit Clinic<span aria-hidden="true"> ✚</span></div>
+        <% end %>
+        <div class="flex items-center space-x-6">
+          <% if user_signed_in? %>
+            <%= link_to "User profile", user_profile_path, class: "text-sm font-medium text-white hover:text-gray-100"  %>
+            <%= button_to "Sign out", destroy_user_session_path, method: :delete, class: "text-sm font-medium text-white hover:text-gray-100" %>
+            <% if current_user.admin? %>
+              <%= link_to "Administration", admin_root_path, class: "text-sm font-medium text-white hover:text-gray-100"  %>
+            <% end %>
+          <% else %>
+            <% if doctor_signed_in? %>
+              <%= link_to "Doctor profile", doctor_profile_path, class: "text-sm font-medium text-white hover:text-gray-100"  %>
+              <%= button_to "Sign out", destroy_doctor_session_path, method: :delete, class: "text-sm font-medium text-white hover:text-gray-100" %>
+            <% else %>
+            <%= link_to "Sign in", new_user_session_path, class: "text-sm font-medium text-white hover:text-gray-100" %>
+            <%= link_to "Create an account", new_user_registration_path, class: "text-sm font-medium text-white hover:text-gray-100" %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>

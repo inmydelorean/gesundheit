@@ -1,0 +1,43 @@
+<div class="py-24 sm:py-32 lg:pb-40">
+  <div class="mx-auto max-w-7xl px-6 lg:px-8">
+    <div class="mx-auto max-w-2xl text-center">
+      <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">Get An Appointment</h1>
+      <p class="mt-6 text-lg leading-8 text-gray-600">Fill out the form below to get an appointment with a doctor.</p>
+
+      <%= form_with(model: @appointment) do |f| %>
+        <div class="space-y-12">
+          <% if @appointment.errors.any? %>
+            <div class="mt-4 border border-b border-red-700 border-dashed">
+              <h2 class="text-red-700"><%= pluralize(@appointment.errors.count, "error") %> pohibited this appointment from being saved:</h2>
+
+              <ul>
+                <% @appointment.errors.each do |error| %>
+                  <li class="text-red-700"><%= error.full_message %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+
+          <div class="mt-8 rounded-md">
+            <%= f.label :date, "Select date and time", class: "block mb-4 text-xl" %>
+            <%= f.datetime_select :time, required: true, class: "rounded-md" %>
+          </div>
+
+          <div class="mt-2 mt-2 rounded-md">
+            <%= f.label :doctor, "Select a doctor", class: "block mb-4 text-xl" %>
+            <%= f.collection_select :doctor_id, Doctor.available, :id, :doctor_with_category, {prompt: "Select a doctor"}, required: true %>
+          </div>
+
+          <div class="col-span-full">
+            <%= f.label :description, "Details (optional)", class: "block mb-4 text-xl" %>
+            <%= f.text_area :description, class: "block w-full" %>
+          </div>
+
+          <div>
+            <%= f.submit "Schedule an appointment", class: "w-full inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700" %>
+          </div>
+      <% end %>
+        </div>
+    </div>
+  </div>
+</div>

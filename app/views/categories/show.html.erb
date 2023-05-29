@@ -1,0 +1,30 @@
+<section class="mx-auto max-w-7xl px-4 py-16">
+  <%= link_to categories_path, class: "my-4 hidden text-sm font-semibold text-indigo-600 hover:text-indigo-500 sm:block" do %>
+    <span aria-hidden="true"> &larr;</span>
+    Browse all categories
+  <% end %>
+  <div class="sm:flex sm:items-baseline sm:justify-between">
+    <h1 class="text-4xl font-bold tracking-tight text-gray-900">Our <%= @category.name.pluralize %></h1>
+  </div>
+  <div class="mt-6 grid grid-cols-1 gap-y-10 sm:grid-cols-3 sm:gap-x-6 sm:gap-y-0 lg:gap-x-8">
+    <% @category.doctors.each do |doctor| %>
+      <div class="group relative mb-8 lg:mb-16">
+        <div class="h-96 w-full overflow-hidden rounded-lg sm:aspect-h-3 sm:aspect-w-2 sm:h-auto">
+          <% if doctor.photo.attached? %>
+            <%= cl_image_tag doctor.photo.key, class: "h-full w-full object-cover object-center" %>
+          <% else %>
+            <%= image_tag "no_photo.jpeg", class: "h-full w-full object-cover object-center" %>
+          <% end %>
+        </div>
+        <h3 class="mt-4 text-xl font-semibold text-gray-900">
+
+            <span class="absolute inset-0"></span>
+            <%= doctor.full_name %>
+
+        </h3>
+        <p class="mt-1 text-sm text-gray-500"><%= doctor.years_of_experience %> years of experience</p>
+      </div>
+    <% end %>
+  </div>
+</section>
+

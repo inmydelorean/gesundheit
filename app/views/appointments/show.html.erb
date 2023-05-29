@@ -1,0 +1,79 @@
+<main class="mx-auto max-w-2xl pb-24 pt-8 sm:px-6 sm:pt-16 lg:max-w-7xl lg:px-8">
+  <% if user_signed_in? %>
+    <%= link_to user_profile_path, class: "my-4 hidden text-sm font-semibold text-indigo-600 hover:text-indigo-500 sm:block" do %>
+      <span aria-hidden="true"> &larr;</span>
+      Back to the patient's profile
+    <% end %>
+  <% else %>
+    <%= link_to doctor_profile_path, class: "my-4 hidden text-sm font-semibold text-indigo-600 hover:text-indigo-500 sm:block" do %>
+      <span aria-hidden="true"> &larr;</span>
+      Back to the doctor's profile
+    <% end %>
+  <% end %>
+  <div class="space-y-2 px-4 sm:flex sm:items-baseline sm:justify-between sm:space-y-0 sm:px-0">
+    <div class="flex sm:items-baseline sm:space-x-4">
+      <h1 class="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">Your appointment at <%= @appointment.time.strftime("%H:%M, %A, %b %d %Y") %></h1>
+    </div>
+    <p class="text-sm text-gray-600">Created at <time datetime="2021-03-22" class="font-medium text-gray-900"><%= @appointment.created_at.strftime("%H:%M, %A, %b %d %Y") %></time></p>
+  </div>
+
+  <!-- Products -->
+  <section aria-labelledby="products-heading" class="mt-6">
+    <div class="space-y-8">
+      <div class="border-b border-t border-gray-200 bg-white shadow-sm sm:rounded-lg sm:border">
+        <div class="px-4 py-6 sm:px-6 lg:grid lg:grid-cols-12 lg:gap-x-8 lg:p-8">
+          <div class="sm:flex lg:col-span-7">
+            <div class="aspect-h-1 aspect-w-1 w-full flex-shrink-0 overflow-hidden rounded-lg sm:aspect-none sm:h-40 sm:w-40">
+              <% if @appointment.doctor.photo.attached? %>
+                <%= cl_image_tag @appointment.doctor.photo.key, class: "h-full w-full object-cover object-center sm:h-full sm:w-full" %>
+              <% else %>
+                <%= image_tag "no_photo.jpeg", class: "h-full w-full object-cover object-center sm:h-full sm:w-full" %>
+              <% end %>
+            </div>
+
+            <div class="mt-6 sm:ml-6 sm:mt-0">
+              <h3 class="text-base font-medium text-gray-900">
+                Doctor: <%= @appointment.doctor.doctor_with_category %>
+              </h3>
+              <h3 class="mt-2 text-base font-medium text-gray-900">
+                Patient: <%= @appointment.user.full_name %>
+              </h3>
+              <p class="mt-2 text-sm text-gray-500"><%= @appointment.description.length > 0 ? @appointment.description : "No description" %></p>
+            </div>
+          </div>
+
+          <div class="mt-6 lg:col-span-5 lg:mt-0">
+            <div class="text-sm">
+              <div>
+                <div class="font-medium text-gray-900">Status:</div>
+                <p class="mt-2 text-sm text-gray-500"><%= @appointment.completed? ? "Completed" : "Not completed" %></p>
+
+
+                  <% unless @appointment.completed? %>
+                    <div class="mt-4 font-medium text-gray-900">Add a recommendation:</div>
+                    <% if doctor_signed_in?  %>
+
+                    <%= form_with model: [@appointment, @appointment.build_recommendation], data: { turbo: false } do |form| %>
+                      <p>
+                        <%= form.text_area :body, required: true, class: "block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" %>
+                      </p>
+                      <%= form.hidden_field :doctor_id, value: current_doctor.id %>
+                      <%= form.hidden_field :appointment_id, value: @appointment.id %>
+                      <p>
+                        <%= form.submit "Add a recommendation", class: "rounded-md bg-white my-2 px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" %>
+                      </p>
+                    <% end %>
+                  <% end %>
+                  <% else %>
+                    <div class=" mt-4 font-medium text-gray-900">Recommendation:</div>
+                    <p class="mt-2 text-sm text-gray-500"><%= @appointment.recommendation.body if @appointment.recommendation != nil %></p>
+                  <% end %>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>

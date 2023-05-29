@@ -1,0 +1,75 @@
+<main>
+  <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+    <div class="mx-auto grid max-w-2xl grid-cols-1 grid-rows-1 items-start gap-x-8 gap-y-8 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+      <div class="-mx-4 px-4 py-8 shadow-sm ring-1 ring-gray-900/5 sm:mx-0 sm:rounded-lg sm:px-8 sm:pb-14 lg:col-span-2 lg:row-span-2 lg:row-end-2 xl:px-16 xl:pb-20 xl:pt-16">
+        <h1 class="text-xl font-semibold leading-6 text-gray-900">Hello, <%= current_user.first_name %>!</h1>
+        <span class="text-sm text-gray-400"><%= link_to "(edit your data)", edit_user_registration_path %></span>
+        <div class="mt-6 text-sm leading-6">
+          <div class="sm:pr-4">
+            <div class="inline text-gray-500">You have <%= current_user.appointments.pending.count %> pending
+              appointments.
+            </div>
+          </div>
+        </div>
+        <ul role="list" class="divide-y divide-gray-100">
+          <% @pending_appointments.each do |appointment| %>
+            <li class="relative flex justify-between gap-x-6 py-5">
+              <div class="flex gap-x-4">
+                <% if appointment.doctor.photo.attached? %>
+                  <%= cl_image_tag appointment.doctor.photo.key, class: "h-12 w-12 flex-none rounded-full bg-gray-50" %>
+                <% else %>
+                  <%= image_tag "no_photo.jpeg", class: "h-12 w-12 flex-none rounded-full bg-gray-50" %>
+                <% end %>
+                <div class="min-w-0 flex-auto">
+                  <p class="text-sm font-semibold leading-6 text-gray-900">
+                    <%= link_to appointment do %>
+                      <span class="absolute inset-x-0 -top-px bottom-0"></span>
+                      <%= appointment.doctor.full_name %>
+                    <% end %>
+                  </p>
+                  <p class="mt-1 text-xs leading-5 text-gray-500">
+                    Description: <%= appointment.description %>
+                  </p>
+                </div>
+              </div>
+              <div class="flex items-center gap-x-4">
+                <div class="hidden sm:flex sm:flex-col sm:items-end">
+                  <p class="text-sm leading-6 text-gray-900"><%= appointment.time.strftime("%H:%M, %b %d %Y") %></p>
+                  <p class="mt-1 text-xs leading-5 text-gray-500"><%= appointment.time.strftime("%A") %></p>
+                </div>
+                <svg class="h-5 w-5 flex-none text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd"/>
+                </svg>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+
+      <div class="lg:col-start-3 mt-12">
+        <h2 class="text-sm font-semibold leading-6 text-gray-900">Completed appointments</h2>
+        <ul role="list" class="mt-4 space-y-6">
+          <% if @completed_appointments.count.positive? %>
+            <% @completed_appointments.each do |appointment| %>
+              <%= link_to appointment, class: "relative flex gap-x-4" do %>
+                <li class="relative flex gap-x-4">
+                  <div class="absolute left-0 top-0 flex w-6 justify-center -bottom-6">
+                    <div class="w-px bg-gray-200"></div>
+                  </div>
+                  <div class="relative flex h-6 w-6 flex-none items-center justify-center bg-white">
+                    <div class="h-1.5 w-1.5 rounded-full bg-gray-100 ring-1 ring-gray-300"></div>
+                  </div>
+                  <p class="flex-auto py-0.5 text-xs leading-5 text-gray-500">
+                    <span class="font-medium text-gray-900"><%= appointment.doctor.full_name %></span></p>
+                  <time datetime="2023-01-23T10:32" class="flex-none py-0.5 text-xs leading-5 text-gray-500"><%= appointment.time.strftime("%H:%M, %A %b %d %Y") %></time>
+                </li>
+              <% end %>
+            <% end %>
+          <% else %>
+            <p class="text-sm leading-6 text-gray-500">You have no completed appointments.</p>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+</main>
